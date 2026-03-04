@@ -303,5 +303,75 @@ class MusinsaCrawlDataParserTest {
 
             assertThat(product.isSimilar()).isTrue();
         }
+
+        @Test
+        @DisplayName("키가 0이면 Null로 파싱한다.")
+        void heightZeroParsedAsNull() throws JsonProcessingException {
+            String rawData = """
+                    [{"id": "123", "model": {"height": 0}, "goods": [], "tags": [], "medias": [],
+                       "status": {"snapDisplayStatus": "DISPLAY"}, "goods_detail_list": []}]
+                    """;
+
+            CardCreateCommand command = parser.parse(rawData).get(0);
+            assertThat(command.height()).isNull();
+        }
+
+        @Test
+        @DisplayName("몸무게가 0이면 Null로 파싱한다.")
+        void weightZeroParsedAsNull() throws JsonProcessingException {
+            String rawData = """
+                    [{"id": "123", "model": {"weight": 0}, "goods": [], "tags": [], "medias": [],
+                       "status": {"snapDisplayStatus": "DISPLAY"}, "goods_detail_list": []}]
+                    """;
+
+            CardCreateCommand command = parser.parse(rawData).get(0);
+            assertThat(command.weight()).isNull();
+        }
+
+        @Test
+        @DisplayName("키가 공백이면 Null로 파싱한다.")
+        void heightEmptyParsedAsNull() throws JsonProcessingException {
+            String rawData = """
+                    [{"id": "123", "model": {"height": " "}, "goods": [], "tags": [], "medias": [],
+                       "status": {"snapDisplayStatus": "DISPLAY"}, "goods_detail_list": []}]
+                    """;
+
+            CardCreateCommand command = parser.parse(rawData).get(0);
+            assertThat(command.height()).isNull();
+        }
+
+        @Test
+        @DisplayName("몸무게가 공백이면 Null로 파싱한다.")
+        void weightEmptyParsedAsNull() throws JsonProcessingException {
+            String rawData = """
+                    [{"id": "123", "model": {"weight": " "}, "goods": [], "tags": [], "medias": [],
+                       "status": {"snapDisplayStatus": "DISPLAY"}, "goods_detail_list": []}]
+                    """;
+
+            CardCreateCommand command = parser.parse(rawData).get(0);
+            assertThat(command.weight()).isNull();
+        }
+
+        @Test
+        @DisplayName("상품 리스트와 상세 정보의 goodsNo가 일치하지 않으면 상품 정보를 제외한다")
+        void goodsNoMismatchTest() throws JsonProcessingException {
+            String rawData = """
+                    [
+                      {
+                        "id": "123",
+                        "status": { "snapDisplayStatus": "DISPLAY" },
+                        "goods": [{ "goodsNo": "5916242" }], 
+                        "goods_detail_list": [
+                          { "goodsNo": "9999999", "goodsName": "매칭 안될 상품" }
+                        ]
+                      }
+                    ]
+                    """;
+
+            CardCreateCommand command = parser.parse(rawData).get(0);
+
+            assertThat(command.productCreateCommands()).isEmpty();
+        }
     }
+
 }
