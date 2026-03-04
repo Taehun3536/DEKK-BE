@@ -1,6 +1,7 @@
 package com.dekk.deck.presentation.controller;
 
 import com.dekk.common.response.ApiResponse;
+import com.dekk.security.oauth2.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -9,10 +10,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "Deck Command", description = "보관함 조작 API (Command)")
 public interface DeckCommandApi {
+
     @Operation(summary = "기본 보관함에서 특정 카드 저장 취소 (Soft Delete)")
     @ApiResponses(value = {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "SD20004: 보관함 내 카드 저장 취소 성공"),
@@ -23,11 +24,9 @@ public interface DeckCommandApi {
         )
     })
     ResponseEntity<ApiResponse<Void>> removeCardFromDefaultDeck(
-        // TODO: 향후 SecurityContextHolder에서 추출하도록 변경 예정
-        @Parameter(description = "사용자 ID", required = true) Long userId,
-        @Parameter(description = "삭제할 카드 ID", in = ParameterIn.PATH) @PathVariable Long cardId
+        @Parameter(hidden = true) CustomUserDetails userDetails,
+        @Parameter(description = "삭제할 카드 ID", in = ParameterIn.PATH) Long cardId
     );
-
 
     @Operation(summary = "기본 보관함 카드 저장", description = "유저의 기본 보관함에 특정 카드를 저장합니다.")
     @ApiResponses(value = {
@@ -39,8 +38,7 @@ public interface DeckCommandApi {
         )
     })
     ResponseEntity<ApiResponse<Void>> addCardToDefaultDeck(
-        // TODO: 향후 SecurityContextHolder에서 추출하도록 변경 예정
-        @Parameter(description = "사용자 ID", required = true) Long userId,
-        @Parameter(description = "저장할 카드 ID", in = ParameterIn.PATH) @PathVariable Long cardId
+        @Parameter(hidden = true) CustomUserDetails userDetails,
+        @Parameter(description = "저장할 카드 ID", in = ParameterIn.PATH) Long cardId
     );
 }

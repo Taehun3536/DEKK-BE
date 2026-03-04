@@ -84,7 +84,7 @@ public class Card extends BaseTimeEntity {
                 cardImage,
                 command.tags(),
                 command.originId(),
-                true,
+                command.isActive(),
                 command.platform(),
                 command.height(),
                 command.weight()

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public enum ActiveLogResultCode implements ResultCode {
     SWIPE_SUCCESS(HttpStatus.OK, "SAL20001", "스와이프 평가가 정상적으로 기록되었습니다."),
-    GUEST_SWIPE_IGNORED(HttpStatus.OK, "SAL20002", "비회원 스와이프 액션 (수집 생략)");
+    ;
 
     private final HttpStatus status;
     private final String code;

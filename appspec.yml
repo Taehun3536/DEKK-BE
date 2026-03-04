@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+
+# S3에서 다운받은 파일을 어디에 풀지 결정
+files:
+  - source: /
+    destination: /home/ubuntu/dekk-was
+    overwrite: yes
+
+# 복사된 파일들의 소유권 설정
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
+# 배포 생명주기 정의
+hooks:
+  ApplicationStart:
+    - location: scripts/deploy.sh
+      timeout: 60
+      runas: ubuntu

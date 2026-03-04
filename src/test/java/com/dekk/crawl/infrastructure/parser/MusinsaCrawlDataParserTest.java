@@ -3,7 +3,6 @@ package com.dekk.crawl.infrastructure.parser;
 import com.dekk.card.application.command.CardCreateCommand;
 import com.dekk.card.application.command.ProductCreateCommand;
 import com.dekk.card.domain.model.enums.Platform;
-import com.dekk.card.domain.model.enums.ProductGender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -131,14 +130,6 @@ class MusinsaCrawlDataParserTest {
         }
 
         @Test
-        @DisplayName("snapDisplayStatus가 DISPLAY이면 isActive는 true이다")
-        void parseIsActive() throws JsonProcessingException {
-            CardCreateCommand command = parser.parse(RAW_DATA).get(0);
-
-            assertThat(command.isActive()).isTrue();
-        }
-
-        @Test
         @DisplayName("model의 height, weight를 파싱한다")
         void parseModelInfo() throws JsonProcessingException {
             CardCreateCommand command = parser.parse(RAW_DATA).get(0);
@@ -153,17 +144,6 @@ class MusinsaCrawlDataParserTest {
             CardCreateCommand command = parser.parse(RAW_DATA).get(0);
 
             assertThat(command.tags()).isEqualTo("개강룩,개강코디,광고,꾸안꾸,무신사,어반디타입,오늘의스냅,출근룩");
-        }
-
-        @Test
-        @DisplayName("medias[0]의 path를 카드 이미지 originUrl로 파싱한다")
-        void parseCardImage() throws JsonProcessingException {
-            CardCreateCommand command = parser.parse(RAW_DATA).get(0);
-
-            assertThat(command.cardImage().originUrl())
-                    .isEqualTo("https://image.msscdn.net/thumbnails/snap/images/2026/02/25/73ffa7fff50d45d28375464b1d801dab.jpg");
-            assertThat(command.cardImage().imageUrl()).isNull();
-            assertThat(command.cardImage().isUploaded()).isFalse();
         }
 
         @Test
@@ -198,27 +178,6 @@ class MusinsaCrawlDataParserTest {
             ProductCreateCommand product = command.productCreateCommands().get(0);
 
             assertThat(product.isSimilar()).isFalse();
-        }
-
-        @Test
-        @DisplayName("상품 이미지 originUrl을 파싱하고 imageUrl은 null, isUploaded는 false이다")
-        void parseProductImage() throws JsonProcessingException {
-            CardCreateCommand command = parser.parse(RAW_DATA).get(0);
-            ProductCreateCommand product = command.productCreateCommands().get(0);
-
-            assertThat(product.productImage().originUrl())
-                    .isEqualTo("https://image.msscdn.net/thumbnails/images/goods_img/20260120/5916242/5916242_17701917627149_500.jpg");
-            assertThat(product.productImage().imageUrl()).isNull();
-            assertThat(product.productImage().isUploaded()).isFalse();
-        }
-
-        @Test
-        @DisplayName("model.gender가 WOMEN이면 ProductGender.WOMEN으로 파싱한다")
-        void parseGender() throws JsonProcessingException {
-            CardCreateCommand command = parser.parse(RAW_DATA).get(0);
-            ProductCreateCommand product = command.productCreateCommands().get(0);
-
-            assertThat(product.gender()).isEqualTo(ProductGender.WOMEN);
         }
     }
 

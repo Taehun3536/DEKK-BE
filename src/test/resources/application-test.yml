@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;NON_KEYWORDS=USER,ROLE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ''
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+cloud:
+  aws:
+    credentials:
+      instance-profile: false
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+# CI 테스트 환경에서 에러 방지를 위한 더미(Dummy) 데이터
+app:
+  oauth2:
+    redirect-uri: "http://localhost:3000/oauth2/redirect"
+  cors:
+    allowed-origins: "http://localhost:3000"
+
+jwt:
+  secret: "dGhpcy1pcy1hLWR1bW15LXNlY3JldC1rZXktZm9yLXRlc3RpbmctcHVycG9zZXMtb25seS0xMjM="
+  access-token-validity-in-seconds: 3600
+  refresh-token-validity-in-seconds: 604800

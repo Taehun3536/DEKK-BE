@@ -2,6 +2,7 @@ package com.dekk.activelog.presentation.controller;
 
 import com.dekk.activelog.presentation.request.SwipeRequest;
 import com.dekk.common.response.ApiResponse;
+import com.dekk.security.oauth2.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -20,6 +21,7 @@ public interface ActiveLogApi {
     })
     ResponseEntity<ApiResponse<Void>> swipeCard(
         @Parameter(description = "대상 카드 ID", in = ParameterIn.PATH) Long cardId,
-        @RequestBody(description = "스와이프 요청 정보(LIKE/DISLIKE)") SwipeRequest request
+        @RequestBody(description = "스와이프 요청 정보(LIKE/DISLIKE)") SwipeRequest request,
+        @Parameter(hidden = true) CustomUserDetails userDetails
     );
 }

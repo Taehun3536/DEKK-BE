@@ -29,10 +29,10 @@ public class CardImage {
     @JoinColumn(name = "card_id")
     private Card card;
 
-    @Column(name = "origin_url", nullable = false)
+    @Column(name = "origin_url", nullable = false, columnDefinition = "text")
     private String originUrl;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "text")
     private String imageUrl;
 
     @Column(name = "is_uploaded", nullable = false)

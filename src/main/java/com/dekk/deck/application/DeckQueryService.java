@@ -1,5 +1,7 @@
 package com.dekk.deck.application;
 
+import com.dekk.card.application.CardQueryService;
+import com.dekk.card.application.dto.result.MemberCardResult;
 import com.dekk.deck.application.dto.result.MyDeckCardResult;
 import com.dekk.deck.domain.exception.DeckBusinessException;
 import com.dekk.deck.domain.exception.DeckErrorCode;
@@ -7,7 +9,10 @@ import com.dekk.deck.domain.model.Deck;
 import com.dekk.deck.domain.model.DeckCard;
 import com.dekk.deck.domain.repository.DeckCardRepository;
 import com.dekk.deck.domain.repository.DeckRepository;
-import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +26,7 @@ public class DeckQueryService {
 
     private final DeckRepository deckRepository;
     private final DeckCardRepository deckCardRepository;
-    // private final CardQueryService cardQueryService; // TODO: 향후 Card 도메인 완성 시 주입 예정
+    private final CardQueryService cardQueryService;
 
     public Page<MyDeckCardResult> getMyDefaultDeckCards(Long userId, Pageable pageable) {
         Deck defaultDeck = deckRepository.findByUserIdAndIsDefaultTrue(userId)
@@ -29,15 +34,39 @@ public class DeckQueryService {
 
         Page<DeckCard> deckCards = deckCardRepository.findAllByDeckId(defaultDeck.getId(), pageable);
 
-        // TODO: 향후 CardQueryService 연동 로직 추가 (cardIds 추출 후 맵핑)
+        List<Long> cardIds = deckCards.getContent().stream()
+            .map(DeckCard::getCardId)
+            .toList();
 
-        return deckCards.map(dc -> new MyDeckCardResult(
-            dc.getCardId(),
-            "", // TODO: cardImageUrl
-            null, // TODO: height
-            null, // TODO: weight
-            Collections.emptyList(), // TODO: tag
-            Collections.emptyList()  // TODO: product
-        ));
+        List<MemberCardResult> cardResults = cardQueryService.getCardsByIds(cardIds);
+
+        Map<Long, MemberCardResult> cardMap = cardResults.stream()
+            .collect(Collectors.toMap(MemberCardResult::cardId, Function.identity()));
+
+        return deckCards.map(deckCard -> {
+            MemberCardResult cardInfo = cardMap.get(deckCard.getCardId());
+
+            if (cardInfo == null) {
+                    return MyDeckCardResult.empty(deckCard.getCardId());
+            }
+
+            List<MyDeckCardResult.ProductDetail> productDetails = cardInfo.products().stream()
+                .map(p -> new MyDeckCardResult.ProductDetail(
+                    p.brand(),
+                    p.productUrl(),
+                    p.name(),
+                    p.productImageUrl()
+                ))
+                .toList();
+
+            return new MyDeckCardResult(
+                cardInfo.cardId(),
+                cardInfo.cardImageUrl(),
+                cardInfo.height(),
+                cardInfo.weight(),
+                cardInfo.tags(),
+                productDetails
+            );
+        });
     }
 }

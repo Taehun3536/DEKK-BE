@@ -38,11 +38,14 @@ public class Product extends BaseTimeEntity {
     @Column(name = "is_similar", nullable = false)
     private boolean isSimilar;
 
-    @Column(name = "product_url")
+    @Column(name = "product_url", columnDefinition = "text")
     private String productUrl;
 
     @Enumerated(EnumType.STRING)
     private ProductGender gender;
+
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
 
     private Product(
             ProductImage productImage,
@@ -52,7 +55,8 @@ public class Product extends BaseTimeEntity {
             String originId,
             String option,
             Boolean isSimilar,
-            String productUrl
+            String productUrl,
+            boolean isActive
     ) {
         this.productImage = productImage;
         this.brand = brand;
@@ -62,6 +66,7 @@ public class Product extends BaseTimeEntity {
         this.option = option;
         this.isSimilar = isSimilar;
         this.productUrl = productUrl;
+        this.isActive = isActive;
     }
 
     public static Product create(ProductCreateCommand command) {
@@ -83,7 +88,8 @@ public class Product extends BaseTimeEntity {
                 command.originId(),
                 command.option(),
                 command.isSimilar(),
-                command.productUrl()
+                command.productUrl(),
+                command.isActive()
         );
 
         productImage.setProduct(product);

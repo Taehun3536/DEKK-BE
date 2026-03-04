@@ -21,7 +21,6 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     @Getter
     private final String status;
 
-    @Getter
     private final Map<String, Object> attributes;
 
     public CustomUserDetails(User user, Map<String, Object> attributes) {

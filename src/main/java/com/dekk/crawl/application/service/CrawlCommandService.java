@@ -2,6 +2,8 @@ package com.dekk.crawl.application.service;
 
 import com.dekk.crawl.application.command.CrawlBatchCreateCommand;
 import com.dekk.crawl.application.command.CrawlRawDataCreateCommand;
+import com.dekk.crawl.application.result.CrawlBatchResult;
+import com.dekk.crawl.application.result.CrawlRawDataResult;
 import com.dekk.crawl.domain.exception.CrawlBusinessException;
 import com.dekk.crawl.domain.exception.CrawlErrorCode;
 import com.dekk.crawl.domain.model.CrawlBatch;
@@ -21,12 +23,12 @@ public class CrawlCommandService {
     private final CrawlBatchRepository batchRepository;
     private final CrawlRawDataRepository rawDataRepository;
 
-    public CrawlBatch createBatch(CrawlBatchCreateCommand command) {
+    public CrawlBatchResult createBatch(CrawlBatchCreateCommand command) {
         CrawlBatch batch = CrawlBatch.create(command.platform());
-        return batchRepository.save(batch);
+        return CrawlBatchResult.from(batchRepository.save(batch));
     }
 
-    public CrawlRawData addRawData(CrawlRawDataCreateCommand command) {
+    public CrawlRawDataResult addRawData(CrawlRawDataCreateCommand command) {
         CrawlBatch batch = batchRepository.findById(command.batchId())
                 .orElseThrow(() -> new CrawlBusinessException(CrawlErrorCode.BATCH_NOT_FOUND));
 
@@ -35,7 +37,7 @@ public class CrawlCommandService {
         }
 
         CrawlRawData rawData = CrawlRawData.create(batch, batch.getPlatform(), command.rawData());
-        return rawDataRepository.save(rawData);
+        return CrawlRawDataResult.from(rawDataRepository.save(rawData));
     }
 
     public void completeBatch(Long batchId) {
