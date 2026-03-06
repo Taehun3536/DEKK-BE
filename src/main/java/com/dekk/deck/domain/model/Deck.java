@@ -42,23 +42,30 @@ public class Deck extends BaseTimeEntity {
         this.isDefault = isDefault;
     }
 
-    public static Deck create(Long userId, String name, boolean isDefault) {
-        validate(userId,name);
-        return new Deck(userId, name, isDefault);
-    }
-
     public static Deck createDefault(Long userId) {
         String defaultName = "나의 기본 보관함";
-        validate(userId, defaultName);
+        validateBase(userId, defaultName);
         return new Deck(userId, defaultName, true);
     }
 
-    private static void validate(Long userId, String name) {
+    public static Deck createCustom(Long userId, String name) {
+        validateBase(userId, name);
+        validateCustomNameLength(name);
+        return new Deck(userId, name, false);
+    }
+
+    private static void validateBase(Long userId, String name) {
         if (userId == null) {
             throw new DeckBusinessException(DeckErrorCode.USER_ID_IS_REQUIRED_TO_CREATE);
         }
         if (name == null || name.isBlank()) {
             throw new DeckBusinessException(DeckErrorCode.DECK_NAME_IS_REQUIRED_TO_CREATE);
+        }
+    }
+
+    private static void validateCustomNameLength(String name) {
+        if (name.length() < 1 || name.length() > 15) {
+            throw new DeckBusinessException(DeckErrorCode.CUSTOM_DECK_NAME_LENGTH_INVALID);
         }
     }
 }

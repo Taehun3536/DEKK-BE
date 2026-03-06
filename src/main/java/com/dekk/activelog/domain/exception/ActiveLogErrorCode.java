@@ -1,8 +1,10 @@
 package com.dekk.activelog.domain.exception;
 
 import com.dekk.common.error.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+@RequiredArgsConstructor
 public enum ActiveLogErrorCode implements ErrorCode {
 
     USER_ID_IS_REQUIRED_TO_CREATE(HttpStatus.BAD_REQUEST, "EAL40001", "사용자 ID는 필수 값입니다"),
@@ -17,12 +19,6 @@ public enum ActiveLogErrorCode implements ErrorCode {
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
-
-    ActiveLogErrorCode(HttpStatus httpStatus, String code, String message) {
-        this.httpStatus = httpStatus;
-        this.code = code;
-        this.message = message;
-    }
 
     @Override
     public HttpStatus status() {

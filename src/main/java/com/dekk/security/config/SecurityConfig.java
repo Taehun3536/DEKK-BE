@@ -45,14 +45,13 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs",
-                                "/w/v1/cards",
-                                "/w/v1/cards/*/swipe",
-                                "/w/v1/guests/cards/**",
-                                "/i/v1/crawl/**"
+                            "/swagger-ui/**",
+                            "/swagger-ui.html",
+                            "/v3/api-docs/**",
+                            "/v3/api-docs",
+                            "/i/v1/crawl/**",
+                            "/w/v1/cards",
+                            "/w/v1/auth/refresh"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -1,5 +1,6 @@
 package com.dekk.user.application;
 
+import com.dekk.deck.application.DeckCommandService;
 import com.dekk.user.application.command.UserOnboardingCommand;
 import com.dekk.user.application.command.UserProfileUpdateCommand;
 import com.dekk.user.domain.exception.UserBusinessException;
@@ -18,23 +19,24 @@ public class UserCommandService {
 
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
+    private final DeckCommandService deckCommandService;
 
     public void onboardUser(Long userId, UserOnboardingCommand command) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+        User user = getUser(userId);
 
         if (profileRepository.existsByNickname(command.nickname())) {
             throw new UserBusinessException(UserErrorCode.DUPLICATE_NICKNAME);
         }
 
         user.completeOnboarding(command);
+
+        deckCommandService.createDefaultDeck(user.getId());
+
     }
 
     public void updateProfileInfo(Long userId, UserProfileUpdateCommand command) {
-        User user = userRepository.findWithProfileById(userId)
-                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+        User user = getUserWithProfile(userId);
 
-        // 닉네임이 변경되었을 경우에만 중복 검사 실행
         if (command.nickname() != null && !command.nickname().equals(user.getProfile().getNickname())) {
             if (profileRepository.existsByNickname(command.nickname())) {
                 throw new UserBusinessException(UserErrorCode.DUPLICATE_NICKNAME);
@@ -45,9 +47,18 @@ public class UserCommandService {
     }
 
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+        User user = getUser(userId);
 
         user.deleteUser();
+    }
+
+    private User getUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+    }
+
+    private User getUserWithProfile(Long userId) {
+        return userRepository.findWithProfileById(userId)
+                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
     }
 }

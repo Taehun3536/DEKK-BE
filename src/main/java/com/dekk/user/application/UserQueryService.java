@@ -20,7 +20,6 @@ public class UserQueryService {
         User user = userRepository.findWithProfileById(userId)
                 .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
 
-        // 엔티티가 아닌 Result DTO 반환
         return UserInfoResult.from(user);
     }
 }

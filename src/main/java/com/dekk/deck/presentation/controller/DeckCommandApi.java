@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Deck Command", description = "보관함 조작 API (Command)")
+@Tag(name = "보관함 관리 API", description = "보관함 및 보관함 내 카드 관리 API")
 public interface DeckCommandApi {
 
     @Operation(summary = "기본 보관함에서 특정 카드 저장 취소 (Soft Delete)")
@@ -26,19 +26,5 @@ public interface DeckCommandApi {
     ResponseEntity<ApiResponse<Void>> removeCardFromDefaultDeck(
         @Parameter(hidden = true) CustomUserDetails userDetails,
         @Parameter(description = "삭제할 카드 ID", in = ParameterIn.PATH) Long cardId
-    );
-
-    @Operation(summary = "기본 보관함 카드 저장", description = "유저의 기본 보관함에 특정 카드를 저장합니다.")
-    @ApiResponses(value = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "SD20001: 보관함 카드 저장 성공"),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "404",
-            description = "ED40401: 기본 보관함을 찾을 수 없습니다",
-            content = @Content(schema = @Schema(implementation = ApiResponse.class))
-        )
-    })
-    ResponseEntity<ApiResponse<Void>> addCardToDefaultDeck(
-        @Parameter(hidden = true) CustomUserDetails userDetails,
-        @Parameter(description = "저장할 카드 ID", in = ParameterIn.PATH) Long cardId
     );
 }

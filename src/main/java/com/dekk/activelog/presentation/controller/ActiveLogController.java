@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/w/v1/activelogs")
 @RequiredArgsConstructor
 public class ActiveLogController implements ActiveLogApi {
 
     private final ActiveLogCommandService activeLogCommandService;
 
     @Override
-    @PostMapping("/{cardId}/swipe")
+    @PostMapping("/w/v1/cards/{cardId}/swipe")
     public ResponseEntity<ApiResponse<Void>> swipeCard(
         @PathVariable("cardId") Long cardId,
         @Valid @RequestBody SwipeRequest request,

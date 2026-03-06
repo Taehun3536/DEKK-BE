@@ -10,6 +10,8 @@ public enum DeckResultCode implements ResultCode {
     CARD_SAVE_SUCCESS(HttpStatus.OK, "SD20002", "보관함 카드 저장 성공"),
     DECK_CARD_LIST_SUCCESS(HttpStatus.OK, "SD20003", "보관함 카드 목록 조회 성공"),
     DECK_CARD_DELETED_SUCCESS(HttpStatus.OK, "SD20004", "보관함 내 카드 저장 취소 성공"),
+
+    CUSTOM_DECK_CREATE_SUCCESS(HttpStatus.OK, "SD20005", "커스텀 보관함 생성 성공"),
     ;
 
     private final HttpStatus status;

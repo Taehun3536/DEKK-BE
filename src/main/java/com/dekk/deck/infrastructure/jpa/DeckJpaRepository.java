@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface DeckJpaRepository extends JpaRepository<Deck, Long> {
     Optional<Deck> findByUserIdAndIsDefaultTrue(Long userId);
+
+    long countByUserIdAndIsDefaultFalse(Long userId);
 }

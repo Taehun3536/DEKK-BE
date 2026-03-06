@@ -23,16 +23,6 @@ public class DeckCommandController implements DeckCommandApi {
     private final DeckCardCommandService deckCardCommandService;
 
     @Override
-    @PostMapping("/default/cards/{cardId}")
-    public ResponseEntity<ApiResponse<Void>> addCardToDefaultDeck(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable("cardId") Long cardId
-    ) {
-        deckCardCommandService.saveToDefaultDeck(userDetails.getId(), cardId);
-        return ResponseEntity.ok(ApiResponse.from(DeckResultCode.CARD_SAVE_SUCCESS));
-    }
-
-    @Override
     @DeleteMapping("/default/cards/{cardId}")
     public ResponseEntity<ApiResponse<Void>> removeCardFromDefaultDeck(
         @AuthenticationPrincipal CustomUserDetails userDetails,

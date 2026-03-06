@@ -22,4 +22,9 @@ public class DeckRepositoryImpl implements DeckRepository {
     public Optional<Deck> findByUserIdAndIsDefaultTrue(Long userId) {
         return deckJpaRepository.findByUserIdAndIsDefaultTrue(userId);
     }
+
+    @Override
+    public long countByUserIdAndIsDefaultFalse(Long userId) {
+        return deckJpaRepository.countByUserIdAndIsDefaultFalse(userId);
+    }
 }

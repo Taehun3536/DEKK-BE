@@ -1,8 +1,10 @@
 package com.dekk.activelog.presentation.response;
 
 import com.dekk.common.response.ResultCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+@RequiredArgsConstructor
 public enum ActiveLogResultCode implements ResultCode {
     SWIPE_SUCCESS(HttpStatus.OK, "SAL20001", "스와이프 평가가 정상적으로 기록되었습니다."),
     ;
@@ -10,12 +12,6 @@ public enum ActiveLogResultCode implements ResultCode {
     private final HttpStatus status;
     private final String code;
     private final String message;
-
-    ActiveLogResultCode(HttpStatus status, String code, String message) {
-        this.status = status;
-        this.code = code;
-        this.message = message;
-    }
 
     @Override public HttpStatus status() { return status; }
     @Override public String code() { return code; }
