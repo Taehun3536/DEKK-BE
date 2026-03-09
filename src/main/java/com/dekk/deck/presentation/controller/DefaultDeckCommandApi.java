@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "보관함 관리 API", description = "보관함 및 보관함 내 카드 관리 API")
-public interface DeckCommandApi {
+@Tag(name = "기본 보관함 관리 API", description = "기본 보관함 및 기본 보관함 내 카드 관리 API")
+public interface DefaultDeckCommandApi {
 
     @Operation(summary = "기본 보관함에서 특정 카드 저장 취소 (Soft Delete)")
     @ApiResponses(value = {

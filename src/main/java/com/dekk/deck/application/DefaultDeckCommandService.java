@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DeckCommandService {
+public class DefaultDeckCommandService {
 
     private final DeckRepository deckRepository;
 

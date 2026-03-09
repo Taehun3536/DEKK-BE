@@ -1,6 +1,6 @@
 package com.dekk.user.application;
 
-import com.dekk.deck.application.DeckCommandService;
+import com.dekk.deck.application.DefaultDeckCommandService;
 import com.dekk.user.application.command.UserOnboardingCommand;
 import com.dekk.user.application.command.UserProfileUpdateCommand;
 import com.dekk.user.domain.exception.UserBusinessException;
@@ -19,7 +19,7 @@ public class UserCommandService {
 
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
-    private final DeckCommandService deckCommandService;
+    private final DefaultDeckCommandService deckCommandService;
 
     public void onboardUser(Long userId, UserOnboardingCommand command) {
         User user = getUser(userId);
@@ -54,11 +54,11 @@ public class UserCommandService {
 
     private User getUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+            .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
     }
 
     private User getUserWithProfile(Long userId) {
         return userRepository.findWithProfileById(userId)
-                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+            .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
     }
 }

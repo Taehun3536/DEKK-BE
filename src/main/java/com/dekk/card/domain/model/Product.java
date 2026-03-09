@@ -3,7 +3,7 @@ package com.dekk.card.domain.model;
 import com.dekk.card.application.command.ProductCreateCommand;
 import com.dekk.card.domain.exception.CardBusinessException;
 import com.dekk.card.domain.exception.CardErrorCode;
-import com.dekk.card.domain.model.enums.ProductGender;
+import com.dekk.card.domain.model.enums.TargetGender;
 import com.dekk.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -40,9 +40,6 @@ public class Product extends BaseTimeEntity {
 
     @Column(name = "product_url", columnDefinition = "text")
     private String productUrl;
-
-    @Enumerated(EnumType.STRING)
-    private ProductGender gender;
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive;

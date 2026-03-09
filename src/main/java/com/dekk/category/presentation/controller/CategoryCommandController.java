@@ -1,0 +1,52 @@
+package com.dekk.category.presentation.controller;
+
+import com.dekk.category.application.CategoryCommandService;
+import com.dekk.category.presentation.request.CreateCategoryRequest;
+import com.dekk.category.presentation.response.CreateCategoryResponse;
+import com.dekk.category.presentation.response.CategoryResultCode;
+import com.dekk.common.response.ApiResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/adm/v1/categories")
+@RequiredArgsConstructor
+public class CategoryCommandController implements CategoryCommandApi {
+
+    private final CategoryCommandService categoryCommandService;
+
+    @Override
+    @PostMapping
+    public ResponseEntity<ApiResponse<CreateCategoryResponse>> createParentCategory(
+            @Valid @RequestBody CreateCategoryRequest request
+    ) {
+        Long categoryId = categoryCommandService.createParentCategory(request.toCommand());
+        return ResponseEntity
+                .status(CategoryResultCode.CATEGORY_CREATED.status())
+                .body(ApiResponse.of(
+                        CategoryResultCode.CATEGORY_CREATED,
+                        new CreateCategoryResponse(categoryId)
+                ));
+    }
+
+    @Override
+    @PostMapping("/{parentId}/sub")
+    public ResponseEntity<ApiResponse<CreateCategoryResponse>> createChildCategory(
+            @PathVariable("parentId") Long parentId,
+            @Valid @RequestBody CreateCategoryRequest request
+    ) {
+        Long categoryId = categoryCommandService.createChildCategory(parentId, request.toCommand());
+        return ResponseEntity
+                .status(CategoryResultCode.CATEGORY_CREATED.status())
+                .body(ApiResponse.of(
+                        CategoryResultCode.CATEGORY_CREATED,
+                        new CreateCategoryResponse(categoryId)
+                ));
+    }
+}

@@ -3,7 +3,9 @@ package com.dekk.card.domain.model;
 import com.dekk.card.application.command.CardCreateCommand;
 import com.dekk.card.domain.exception.CardBusinessException;
 import com.dekk.card.domain.exception.CardErrorCode;
+import com.dekk.card.domain.model.enums.CardStatus;
 import com.dekk.card.domain.model.enums.Platform;
+import com.dekk.card.domain.model.enums.TargetGender;
 import com.dekk.common.entity.BaseTimeEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,12 +46,17 @@ public class Card extends BaseTimeEntity {
     @Column(name = "origin_id", nullable = false, updatable = false)
     private String originId;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private CardStatus status;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Platform platform;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "target_gender")
+    private TargetGender targetGender;
 
     private Integer height;
 
@@ -59,16 +66,17 @@ public class Card extends BaseTimeEntity {
             CardImage cardImage,
             String tags,
             String originId,
-            Boolean isActive,
             Platform platform,
+            TargetGender targetGender,
             Integer height,
             Integer weight
     ) {
         this.cardImage = cardImage;
         this.tags = tags;
         this.originId = originId;
-        this.isActive = isActive;
+        this.status = CardStatus.PENDING;
         this.platform = platform;
+        this.targetGender = targetGender;
         this.height = height;
         this.weight = weight;
     }
@@ -84,8 +92,8 @@ public class Card extends BaseTimeEntity {
                 cardImage,
                 command.tags(),
                 command.originId(),
-                command.isActive(),
                 command.platform(),
+                command.targetGender(),
                 command.height(),
                 command.weight()
         );
@@ -96,5 +104,21 @@ public class Card extends BaseTimeEntity {
                 .map(product -> CardProduct.create(card, product))
                 .forEach(card.cardProducts::add);
         return card;
+    }
+
+    public void approve() {
+        validateStatusChangeable();
+        this.status = CardStatus.APPROVED;
+    }
+
+    public void reject() {
+        validateStatusChangeable();
+        this.status = CardStatus.REJECTED;
+    }
+
+    private void validateStatusChangeable() {
+        if (!this.status.canChangeStatus()) {
+            throw new CardBusinessException(CardErrorCode.CANNOT_CHANGE_STATUS_OF_DELETE_REQUESTED);
+        }
     }
 }

@@ -28,5 +28,6 @@ public record MyDeckCardResult(
         String url,
         String name,
         String productsImageUrl
-    ){}
+    ) {
+    }
 }

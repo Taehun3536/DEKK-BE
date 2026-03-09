@@ -5,6 +5,8 @@ import com.dekk.deck.domain.repository.DeckRepository;
 import com.dekk.deck.infrastructure.jpa.DeckJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,5 +28,20 @@ public class DeckRepositoryImpl implements DeckRepository {
     @Override
     public long countByUserIdAndIsDefaultFalse(Long userId) {
         return deckJpaRepository.countByUserIdAndIsDefaultFalse(userId);
+    }
+
+    @Override
+    public Optional<Deck> findByIdAndUserId(Long id, Long userId) {
+        return deckJpaRepository.findByIdAndUserId(id, userId);
+    }
+
+    @Override
+    public void delete(Deck deck) {
+        deckJpaRepository.delete(deck);
+    }
+
+    @Override
+    public List<Deck> findAllByUserIdAndIsDefaultFalseOrderByCreatedAtDesc(Long userId) {
+        return deckJpaRepository.findAllByUserIdAndIsDefaultFalseOrderByCreatedAtDesc(userId);
     }
 }

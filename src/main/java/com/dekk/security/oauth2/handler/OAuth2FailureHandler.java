@@ -1,5 +1,6 @@
 package com.dekk.security.oauth2.handler;
 
+import com.dekk.security.oauth2.dto.ErrorQueryParam;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,9 +18,14 @@ import java.io.IOException;
 public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private final String redirectUri;
+    private final OAuth2ErrorMapper errorMapper;
 
-    public OAuth2FailureHandler(@Value("${app.oauth2.redirect-uri}") String redirectUri) {
+    public OAuth2FailureHandler(
+            @Value("${app.oauth2.redirect-uri}") String redirectUri,
+            OAuth2ErrorMapper errorMapper
+    ) {
         this.redirectUri = redirectUri;
+        this.errorMapper = errorMapper;
     }
 
     @Override
@@ -27,10 +33,16 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
                                         AuthenticationException exception) throws IOException, ServletException {
         log.error("OAuth2 authentication failed: {}", exception.getMessage());
 
-        String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
-                .queryParam("error", exception.getLocalizedMessage())
-                .build().toUriString();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(redirectUri);
 
+        ErrorQueryParam queryParam = errorMapper.mapError(exception);
+
+        builder.queryParam("error", queryParam.error());
+        if (queryParam.provider() != null && !queryParam.provider().isBlank()) {
+            builder.queryParam("provider", queryParam.provider());
+        }
+
+        String targetUrl = builder.build().toUriString();
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }
