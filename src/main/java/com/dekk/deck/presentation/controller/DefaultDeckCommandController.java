@@ -24,9 +24,7 @@ public class DefaultDeckCommandController implements DefaultDeckCommandApi {
     @Override
     @DeleteMapping("/cards/{cardId}")
     public ResponseEntity<ApiResponse<Void>> removeCardFromDefaultDeck(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable("cardId") Long cardId
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("cardId") Long cardId) {
         deckCardCommandService.removeFromDefaultDeck(userDetails.getId(), cardId);
         return ResponseEntity.ok(ApiResponse.from(DeckResultCode.DECK_CARD_DELETED_SUCCESS));
     }

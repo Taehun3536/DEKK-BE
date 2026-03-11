@@ -1,8 +1,3 @@
 package com.dekk.card.application.command;
 
-public record ProductImageCreateCommand(
-        String originUrl,
-        String imageUrl,
-        boolean isUploaded
-) {
-}
+public record ProductImageCreateCommand(String originUrl, String imageUrl, boolean isUploaded) {}

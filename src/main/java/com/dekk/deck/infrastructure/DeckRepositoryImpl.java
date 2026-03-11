@@ -3,11 +3,10 @@ package com.dekk.deck.infrastructure;
 import com.dekk.deck.domain.model.Deck;
 import com.dekk.deck.domain.repository.DeckRepository;
 import com.dekk.deck.infrastructure.jpa.DeckJpaRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor

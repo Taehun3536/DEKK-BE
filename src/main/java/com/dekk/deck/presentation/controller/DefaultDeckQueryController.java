@@ -28,14 +28,10 @@ public class DefaultDeckQueryController implements DefaultDeckQueryApi {
     @Override
     @GetMapping("/cards")
     public ResponseEntity<ApiResponse<PageResponse<MyDeckCardResult>>> getMyDefaultDeckCards(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @ParameterObject @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @ParameterObject @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<MyDeckCardResult> pageResult = deckQueryService.getMyDefaultDeckCards(userDetails.getId(), pageable);
 
-        return ResponseEntity.ok(ApiResponse.of(
-            DeckResultCode.DECK_CARD_LIST_SUCCESS,
-            PageResponse.from(pageResult)
-        ));
+        return ResponseEntity.ok(ApiResponse.of(DeckResultCode.DECK_CARD_LIST_SUCCESS, PageResponse.from(pageResult)));
     }
 }

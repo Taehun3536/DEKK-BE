@@ -17,7 +17,8 @@ public class UserQueryService {
     private final UserRepository userRepository;
 
     public UserInfoResult getMyInfo(Long userId) {
-        User user = userRepository.findWithProfileById(userId)
+        User user = userRepository
+                .findWithProfileById(userId)
                 .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
 
         return UserInfoResult.from(user);

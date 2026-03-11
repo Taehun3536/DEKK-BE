@@ -1,10 +1,9 @@
 package com.dekk.security.oauth2;
 
-import com.dekk.user.domain.model.enums.Provider;
 import com.dekk.security.oauth2.dto.GoogleOAuth2UserInfo;
 import com.dekk.security.oauth2.dto.KakaoOAuth2UserInfo;
 import com.dekk.security.oauth2.dto.OAuth2UserInfo;
-
+import com.dekk.user.domain.model.enums.Provider;
 import java.util.Map;
 
 public class OAuth2UserInfoFactory {

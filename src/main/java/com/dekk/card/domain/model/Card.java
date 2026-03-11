@@ -69,8 +69,7 @@ public class Card extends BaseTimeEntity {
             Platform platform,
             TargetGender targetGender,
             Integer height,
-            Integer weight
-    ) {
+            Integer weight) {
         this.cardImage = cardImage;
         this.tags = tags;
         this.originId = originId;
@@ -95,8 +94,7 @@ public class Card extends BaseTimeEntity {
                 command.platform(),
                 command.targetGender(),
                 command.height(),
-                command.weight()
-        );
+                command.weight());
 
         cardImage.setCard(card);
         command.productCreateCommands().stream()

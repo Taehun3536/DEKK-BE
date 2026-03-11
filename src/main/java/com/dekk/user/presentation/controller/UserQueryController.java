@@ -23,8 +23,7 @@ public class UserQueryController implements UserQueryApi {
     @Override
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<UserInfoResponse>> getMyInfo(
-            @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
         UserInfoResult result = userQueryService.getMyInfo(userDetails.getId());
         UserInfoResponse response = UserInfoResponse.from(result);
 

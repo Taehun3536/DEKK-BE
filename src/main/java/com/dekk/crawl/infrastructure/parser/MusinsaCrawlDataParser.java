@@ -10,15 +10,14 @@ import com.dekk.crawl.domain.parser.CrawlDataParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
@@ -67,15 +66,7 @@ public class MusinsaCrawlDataParser implements CrawlDataParser {
         List<ProductCreateCommand> products = parseProducts(snap, optionsByGoodsNo, matchedByGoodsNo);
 
         return new CardCreateCommand(
-                cardImage,
-                products,
-                tags,
-                originId,
-                Platform.MUSINSA,
-                targetGender,
-                height,
-                weight
-        );
+                cardImage, products, tags, originId, Platform.MUSINSA, targetGender, height, weight);
     }
 
     private CardImageCreateCommand parseCardImage(JsonNode snap) {
@@ -173,10 +164,7 @@ public class MusinsaCrawlDataParser implements CrawlDataParser {
     }
 
     private List<ProductCreateCommand> parseProducts(
-            JsonNode snap,
-            Map<String, String> optionsByGoodsNo,
-            Map<String, Boolean> matchedByGoodsNo
-    ) {
+            JsonNode snap, Map<String, String> optionsByGoodsNo, Map<String, Boolean> matchedByGoodsNo) {
         List<ProductCreateCommand> products = new ArrayList<>();
         JsonNode detailList = snap.path("goods_detail_list");
 
@@ -210,8 +198,7 @@ public class MusinsaCrawlDataParser implements CrawlDataParser {
                     option,
                     !isMatched,
                     detail.path("linkUrl").asText(null),
-                    isActive
-            );
+                    isActive);
 
             products.add(product);
         }

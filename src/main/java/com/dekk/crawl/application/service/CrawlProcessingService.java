@@ -20,8 +20,7 @@ public class CrawlProcessingService {
     private final CrawlRawDataProcessor processor;
 
     public void processNextBatch() {
-        List<CrawlRawData> pendingList = rawDataRepository
-                .findByStatusWithLimit(RawDataStatus.PENDING, BATCH_SIZE);
+        List<CrawlRawData> pendingList = rawDataRepository.findByStatusWithLimit(RawDataStatus.PENDING, BATCH_SIZE);
 
         if (pendingList.isEmpty()) {
             log.info("처리할 PENDING raw data가 없습니다");

@@ -31,13 +31,13 @@ public class UserCommandService {
         user.completeOnboarding(command);
 
         deckCommandService.createDefaultDeck(user.getId());
-
     }
 
     public void updateProfileInfo(Long userId, UserProfileUpdateCommand command) {
         User user = getUserWithProfile(userId);
 
-        if (command.nickname() != null && !command.nickname().equals(user.getProfile().getNickname())) {
+        if (command.nickname() != null
+                && !command.nickname().equals(user.getProfile().getNickname())) {
             if (profileRepository.existsByNickname(command.nickname())) {
                 throw new UserBusinessException(UserErrorCode.DUPLICATE_NICKNAME);
             }
@@ -53,12 +53,14 @@ public class UserCommandService {
     }
 
     private User getUser(Long userId) {
-        return userRepository.findById(userId)
-            .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+        return userRepository
+                .findById(userId)
+                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
     }
 
     private User getUserWithProfile(Long userId) {
-        return userRepository.findWithProfileById(userId)
-            .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
+        return userRepository
+                .findWithProfileById(userId)
+                .orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND));
     }
 }

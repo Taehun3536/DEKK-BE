@@ -1,8 +1,7 @@
 package com.dekk.user.domain.model.enums;
 
-import com.dekk.security.oauth2.exception.OAuth2ErrorCode;
 import com.dekk.security.oauth2.exception.CustomOAuth2Exception;
-
+import com.dekk.security.oauth2.exception.OAuth2ErrorCode;
 import java.util.Arrays;
 
 public enum Provider {

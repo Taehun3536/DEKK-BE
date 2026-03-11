@@ -19,22 +19,17 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.SQLDelete;
 
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-    name = "active_logs",
-    indexes = {
-        @Index(name = "idx_user_card", columnList = "user_id, card_id")
-    },
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uk_active_logs_user_card",
-            columnNames = {"user_id", "card_id"}
-        )
-    }
-)
+        name = "active_logs",
+        indexes = {@Index(name = "idx_user_card", columnList = "user_id, card_id")},
+        uniqueConstraints = {
+            @UniqueConstraint(
+                    name = "uk_active_logs_user_card",
+                    columnNames = {"user_id", "card_id"})
+        })
 @SQLDelete(sql = "UPDATE active_logs SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Filter(name = "deletedFilter")
 public class ActiveLog extends BaseTimeEntity {

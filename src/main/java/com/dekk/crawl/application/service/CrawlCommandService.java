@@ -29,7 +29,8 @@ public class CrawlCommandService {
     }
 
     public CrawlRawDataResult addRawData(CrawlRawDataCreateCommand command) {
-        CrawlBatch batch = batchRepository.findById(command.batchId())
+        CrawlBatch batch = batchRepository
+                .findById(command.batchId())
                 .orElseThrow(() -> new CrawlBusinessException(CrawlErrorCode.BATCH_NOT_FOUND));
 
         if (batch.getStatus() != CrawlBatchStatus.COLLECTING) {
@@ -41,7 +42,8 @@ public class CrawlCommandService {
     }
 
     public void completeBatch(Long batchId) {
-        CrawlBatch batch = batchRepository.findById(batchId)
+        CrawlBatch batch = batchRepository
+                .findById(batchId)
                 .orElseThrow(() -> new CrawlBusinessException(CrawlErrorCode.BATCH_NOT_FOUND));
 
         batch.markAsCollected();

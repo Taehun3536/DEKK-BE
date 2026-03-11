@@ -61,18 +61,21 @@ public class DeckCardCommandService {
     }
 
     private Deck getDefaultDeckByUserId(Long userId) {
-        return deckRepository.findByUserIdAndIsDefaultTrue(userId)
-            .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.DEFAULT_DECK_NOT_FOUND));
+        return deckRepository
+                .findByUserIdAndIsDefaultTrue(userId)
+                .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.DEFAULT_DECK_NOT_FOUND));
     }
 
     private Deck getCustomDeckByUserId(Long deckId, Long userId) {
-        return deckRepository.findByIdAndUserId(deckId, userId)
-            .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.CUSTOM_DECK_NOT_FOUND));
+        return deckRepository
+                .findByIdAndUserId(deckId, userId)
+                .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.CUSTOM_DECK_NOT_FOUND));
     }
 
     private DeckCard getDeckCardByDeckIdAndCardId(Long deckId, Long cardId) {
-        return deckCardRepository.findByDeckIdAndCardId(deckId, cardId)
-            .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.CARD_NOT_FOUND_IN_DECK));
+        return deckCardRepository
+                .findByDeckIdAndCardId(deckId, cardId)
+                .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.CARD_NOT_FOUND_IN_DECK));
     }
 
     private void validateCustomDeckCardLimit(Long deckId) {

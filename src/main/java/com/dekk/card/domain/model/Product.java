@@ -3,7 +3,6 @@ package com.dekk.card.domain.model;
 import com.dekk.card.application.command.ProductCreateCommand;
 import com.dekk.card.domain.exception.CardBusinessException;
 import com.dekk.card.domain.exception.CardErrorCode;
-import com.dekk.card.domain.model.enums.TargetGender;
 import com.dekk.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -53,8 +52,7 @@ public class Product extends BaseTimeEntity {
             String option,
             Boolean isSimilar,
             String productUrl,
-            boolean isActive
-    ) {
+            boolean isActive) {
         this.productImage = productImage;
         this.brand = brand;
         this.name = name;
@@ -86,8 +84,7 @@ public class Product extends BaseTimeEntity {
                 command.option(),
                 command.isSimilar(),
                 command.productUrl(),
-                command.isActive()
-        );
+                command.isActive());
 
         productImage.setProduct(product);
         return product;

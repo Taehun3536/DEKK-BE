@@ -5,8 +5,8 @@ import com.dekk.crawl.application.result.CrawlBatchResult;
 import com.dekk.crawl.application.result.CrawlRawDataResult;
 import com.dekk.crawl.application.service.CrawlCommandService;
 import com.dekk.crawl.presentation.dto.request.CrawlBatchCreateRequest;
-import com.dekk.crawl.presentation.dto.response.CrawlBatchCreateResponse;
 import com.dekk.crawl.presentation.dto.request.CrawlRawDataCreateRequest;
+import com.dekk.crawl.presentation.dto.response.CrawlBatchCreateResponse;
 import com.dekk.crawl.presentation.dto.response.CrawlRawDataCreateResponse;
 import com.dekk.crawl.presentation.response.CrawlResultCode;
 import jakarta.validation.Valid;
@@ -28,31 +28,24 @@ public class CrawlController implements CrawlApi {
     @Override
     @PostMapping("/batches")
     public ResponseEntity<ApiResponse<CrawlBatchCreateResponse>> createBatch(
-            @Valid @RequestBody CrawlBatchCreateRequest request
-    ) {
+            @Valid @RequestBody CrawlBatchCreateRequest request) {
         CrawlBatchResult result = commandService.createBatch(request.toCommand());
-        return ResponseEntity
-                .status(CrawlResultCode.BATCH_CREATED.status())
+        return ResponseEntity.status(CrawlResultCode.BATCH_CREATED.status())
                 .body(ApiResponse.of(CrawlResultCode.BATCH_CREATED, CrawlBatchCreateResponse.from(result)));
     }
 
     @Override
     @PostMapping("/batches/{batchId}/raw-data")
     public ResponseEntity<ApiResponse<CrawlRawDataCreateResponse>> addRawData(
-            @PathVariable Long batchId,
-            @Valid @RequestBody CrawlRawDataCreateRequest request
-    ) {
+            @PathVariable Long batchId, @Valid @RequestBody CrawlRawDataCreateRequest request) {
         CrawlRawDataResult result = commandService.addRawData(request.toCommand(batchId));
-        return ResponseEntity
-                .status(CrawlResultCode.RAW_DATA_RECEIVED.status())
+        return ResponseEntity.status(CrawlResultCode.RAW_DATA_RECEIVED.status())
                 .body(ApiResponse.of(CrawlResultCode.RAW_DATA_RECEIVED, CrawlRawDataCreateResponse.from(result)));
     }
 
     @Override
     @PostMapping("/batches/{batchId}/complete")
-    public ResponseEntity<ApiResponse<Void>> completeBatch(
-            @PathVariable Long batchId
-    ) {
+    public ResponseEntity<ApiResponse<Void>> completeBatch(@PathVariable Long batchId) {
         commandService.completeBatch(batchId);
         return ResponseEntity.ok(ApiResponse.from(CrawlResultCode.BATCH_COLLECTION_COMPLETED));
     }

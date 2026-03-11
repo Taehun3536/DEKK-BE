@@ -19,14 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController implements AuthApi {
 
     private final AuthCommandService authCommandService;
+    private final CookieUtil cookieUtil;
     private final int accessTokenMaxAge;
     private final int refreshTokenMaxAge;
 
     public AuthController(
             AuthCommandService authCommandService,
+            CookieUtil cookieUtil,
             @Value("${jwt.access-token-validity-in-seconds}") int accessTokenMaxAge,
             @Value("${jwt.refresh-token-validity-in-seconds}") int refreshTokenMaxAge) {
         this.authCommandService = authCommandService;
+        this.cookieUtil = cookieUtil;
         this.accessTokenMaxAge = accessTokenMaxAge;
         this.refreshTokenMaxAge = refreshTokenMaxAge;
     }
@@ -35,12 +38,11 @@ public class AuthController implements AuthApi {
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<Void>> refreshToken(
             @CookieValue(value = CookieUtil.REFRESH_TOKEN_NAME, required = false) String refreshToken,
-            HttpServletResponse response
-    ) {
+            HttpServletResponse response) {
         TokenRefreshResult result = authCommandService.refreshToken(new TokenRefreshCommand(refreshToken));
 
-        CookieUtil.addCookie(response, CookieUtil.ACCESS_TOKEN_NAME, result.accessToken(), accessTokenMaxAge);
-        CookieUtil.addCookie(response, CookieUtil.REFRESH_TOKEN_NAME, result.refreshToken(), refreshTokenMaxAge);
+        cookieUtil.addCookie(response, CookieUtil.ACCESS_TOKEN_NAME, result.accessToken(), accessTokenMaxAge);
+        cookieUtil.addCookie(response, CookieUtil.REFRESH_TOKEN_NAME, result.refreshToken(), refreshTokenMaxAge);
 
         return ResponseEntity.ok(ApiResponse.from(AuthResultCode.TOKEN_REFRESH_SUCCESS));
     }
@@ -49,8 +51,8 @@ public class AuthController implements AuthApi {
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse response) {
 
-        CookieUtil.deleteCookie(response, CookieUtil.ACCESS_TOKEN_NAME);
-        CookieUtil.deleteCookie(response, CookieUtil.REFRESH_TOKEN_NAME);
+        cookieUtil.deleteCookie(response, CookieUtil.ACCESS_TOKEN_NAME);
+        cookieUtil.deleteCookie(response, CookieUtil.REFRESH_TOKEN_NAME);
 
         return ResponseEntity.ok(ApiResponse.from(AuthResultCode.LOGOUT_SUCCESS));
     }

@@ -40,8 +40,9 @@ public class CustomDeckCommandService {
     }
 
     private Deck getDeckByUserId(Long deckId, Long userId) {
-        return deckRepository.findByIdAndUserId(deckId, userId)
-            .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.CUSTOM_DECK_NOT_FOUND));
+        return deckRepository
+                .findByIdAndUserId(deckId, userId)
+                .orElseThrow(() -> new DeckBusinessException(DeckErrorCode.CUSTOM_DECK_NOT_FOUND));
     }
 
     public void deleteCustomDeck(Long userId, Long deckId) {

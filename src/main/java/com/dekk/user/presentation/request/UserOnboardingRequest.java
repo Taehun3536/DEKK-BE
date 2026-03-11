@@ -10,7 +10,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UserOnboardingRequest(
-
         @NotBlank(message = "닉네임은 필수입니다.")
         @Size(min = 2, max = 10, message = "닉네임은 2자 이상 10자 이내여야 합니다.")
         @Pattern(regexp = "^[a-zA-Z0-9가-힣_]+$", message = "닉네임은 한글, 영문, 숫자, 언더바(_)만 허용됩니다.")
@@ -26,9 +25,7 @@ public record UserOnboardingRequest(
         @Max(value = 150, message = "몸무게는 150kg 이하이어야 합니다.")
         Integer weight,
 
-        @NotNull(message = "성별은 필수 입력값입니다.")
-        Gender gender
-) {
+        @NotNull(message = "성별은 필수 입력값입니다.") Gender gender) {
     public UserOnboardingCommand toCommand() {
         return new UserOnboardingCommand(nickname, height, weight, gender);
     }

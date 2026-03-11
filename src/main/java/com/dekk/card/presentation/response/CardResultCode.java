@@ -16,11 +16,17 @@ public enum CardResultCode implements ResultCode {
     private final String message;
 
     @Override
-    public HttpStatus status() { return status; }
+    public HttpStatus status() {
+        return status;
+    }
 
     @Override
-    public String code() { return code; }
+    public String code() {
+        return code;
+    }
 
     @Override
-    public String message() { return message; }
+    public String message() {
+        return message;
+    }
 }

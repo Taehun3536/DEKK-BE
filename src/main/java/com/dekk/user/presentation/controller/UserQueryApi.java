@@ -14,6 +14,5 @@ public interface UserQueryApi {
 
     @Operation(summary = "내 정보 조회", description = "현재 로그인된 사용자의 상세 프로필 정보를 조회합니다.")
     ResponseEntity<ApiResponse<UserInfoResponse>> getMyInfo(
-            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
-    );
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails);
 }

@@ -1,18 +1,15 @@
 package com.dekk.security.oauth2.dto;
 
+import com.dekk.security.oauth2.exception.CustomOAuth2Exception;
 import com.dekk.security.oauth2.exception.OAuth2ErrorCode;
 import com.dekk.user.domain.model.enums.Provider;
-import com.dekk.security.oauth2.exception.CustomOAuth2Exception;
-
 import java.util.Map;
-
 
 public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
 
     private final Map<String, Object> attributes;
     private final Map<String, Object> kakaoAccount;
     private final Map<String, Object> profile;
-
 
     public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;

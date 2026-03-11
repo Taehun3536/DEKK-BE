@@ -1,19 +1,18 @@
 package com.dekk.card.infrastructure;
 
-import com.dekk.card.domain.model.Card;
 import com.dekk.card.application.dto.query.RecommendCandidateQuery;
+import com.dekk.card.domain.model.Card;
 import com.dekk.card.domain.model.enums.CardStatus;
 import com.dekk.card.domain.model.enums.Platform;
 import com.dekk.card.domain.repository.CardRepository;
 import com.dekk.card.infrastructure.jpa.CardJpaRepository;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -62,12 +61,7 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public List<Card> findRecommendCandidates(RecommendCandidateQuery query) {
         return cardJpaRepository.findRecommendCandidates(
-                query.genders(),
-                query.minHeight(),
-                query.maxHeight(),
-                query.minWeight(),
-                query.maxWeight()
-        );
+                query.genders(), query.minHeight(), query.maxHeight(), query.minWeight(), query.maxWeight());
     }
 
     @Override

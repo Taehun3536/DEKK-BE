@@ -25,7 +25,7 @@ public class ActiveLogCommandService {
         ActiveLog activeLog = ActiveLog.create(command.userId(), command.cardId(), command.swipeType());
         activeLogRepository.save(activeLog);
 
-        if(command.swipeType() == SwipeType.LIKE){
+        if (command.swipeType() == SwipeType.LIKE) {
             deckCardCommandService.saveToDefaultDeck(command.userId(), command.cardId());
         }
     }

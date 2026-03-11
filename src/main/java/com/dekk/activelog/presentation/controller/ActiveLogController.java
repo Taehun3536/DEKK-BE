@@ -13,7 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,10 +24,9 @@ public class ActiveLogController implements ActiveLogApi {
     @Override
     @PostMapping("/w/v1/cards/{cardId}/swipe")
     public ResponseEntity<ApiResponse<Void>> swipeCard(
-        @PathVariable("cardId") Long cardId,
-        @Valid @RequestBody SwipeRequest request,
-        @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
+            @PathVariable("cardId") Long cardId,
+            @Valid @RequestBody SwipeRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         SwipeCommand command = new SwipeCommand(userDetails.getId(), cardId, request.swipeType());
         activeLogCommandService.saveSwipeAction(command);

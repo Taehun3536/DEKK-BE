@@ -38,11 +38,7 @@ public class CardImage {
     @Column(name = "is_uploaded", nullable = false)
     private Boolean isUploaded;
 
-    private CardImage(
-            String originUrl,
-            String imageUrl,
-            Boolean isUploaded
-    ) {
+    private CardImage(String originUrl, String imageUrl, Boolean isUploaded) {
         this.originUrl = originUrl;
         this.imageUrl = imageUrl;
         this.isUploaded = isUploaded;
@@ -53,11 +49,7 @@ public class CardImage {
             throw new CardBusinessException(CardErrorCode.CARD_ORIGIN_URL_IS_REQUIRED_TO_CREATE);
         }
 
-        return new CardImage(
-                command.originUrl(),
-                command.imageUrl(),
-                command.isUploaded()
-        );
+        return new CardImage(command.originUrl(), command.imageUrl(), command.isUploaded());
     }
 
     protected void setCard(Card card) {

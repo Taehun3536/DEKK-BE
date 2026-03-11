@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 public enum UserErrorCode implements ErrorCode {
-
     ALREADY_ONBOARDED(HttpStatus.BAD_REQUEST, "EU40001", "이미 온보딩이 완료된 사용자입니다."),
     INVALID_USER_ID(HttpStatus.BAD_REQUEST, "EU40002", "유효하지 않은 사용자 ID입니다."),
     INVALID_NICKNAME(HttpStatus.BAD_REQUEST, "EU40003", "닉네임은 2자 이상 10자 이내여야 하며, 특수문자는 '_'만 허용됩니다."),

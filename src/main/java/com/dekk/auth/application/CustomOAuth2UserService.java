@@ -1,13 +1,14 @@
 package com.dekk.auth.application;
 
 import com.dekk.auth.domain.exception.AuthErrorCode;
+import com.dekk.security.oauth2.CustomUserDetails;
+import com.dekk.security.oauth2.OAuth2UserInfoFactory;
+import com.dekk.security.oauth2.dto.OAuth2UserInfo;
 import com.dekk.user.application.command.UserCreateCommand;
 import com.dekk.user.domain.model.User;
 import com.dekk.user.domain.model.enums.Provider;
 import com.dekk.user.domain.repository.UserRepository;
-import com.dekk.security.oauth2.CustomUserDetails;
-import com.dekk.security.oauth2.OAuth2UserInfoFactory;
-import com.dekk.security.oauth2.dto.OAuth2UserInfo;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -16,8 +17,6 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,23 +48,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         validateEmailUniqueness(userInfo.getEmail());
 
         return userRepository.save(
-                User.create(new UserCreateCommand(
-                        userInfo.getEmail(),
-                        provider,
-                        userInfo.getProviderId()))
-        );
+                User.create(new UserCreateCommand(userInfo.getEmail(), provider, userInfo.getProviderId())));
     }
 
     private void validateEmailUniqueness(String email) {
-        userRepository.findByEmail(email)
-                .ifPresent(existingUser -> {
-                    throw new OAuth2AuthenticationException(
-                            new OAuth2Error(
-                                    AuthErrorCode.DUPLICATE_EMAIL.code(),
-                                    existingUser.getProvider().name(),
-                                    null
-                            )
-                    );
-                });
+        userRepository.findByEmail(email).ifPresent(existingUser -> {
+            throw new OAuth2AuthenticationException(new OAuth2Error(
+                    AuthErrorCode.DUPLICATE_EMAIL.code(),
+                    existingUser.getProvider().name(),
+                    null));
+        });
     }
 }

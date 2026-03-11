@@ -1,14 +1,14 @@
 package com.dekk.crawl.domain.model;
 
+import static com.dekk.crawl.domain.model.enums.CrawlBatchStatus.COLLECTED;
+import static com.dekk.crawl.domain.model.enums.CrawlBatchStatus.COMPLETED;
+import static com.dekk.crawl.domain.model.enums.CrawlBatchStatus.PROCESSING;
+
 import com.dekk.card.domain.model.enums.Platform;
 import com.dekk.common.entity.BaseTimeEntity;
 import com.dekk.crawl.domain.exception.CrawlBusinessException;
 import com.dekk.crawl.domain.exception.CrawlErrorCode;
 import com.dekk.crawl.domain.model.enums.CrawlBatchStatus;
-
-import static com.dekk.crawl.domain.model.enums.CrawlBatchStatus.COLLECTED;
-import static com.dekk.crawl.domain.model.enums.CrawlBatchStatus.COMPLETED;
-import static com.dekk.crawl.domain.model.enums.CrawlBatchStatus.PROCESSING;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

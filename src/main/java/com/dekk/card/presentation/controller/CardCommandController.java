@@ -19,18 +19,14 @@ public class CardCommandController implements CardCommandApi {
 
     @Override
     @PatchMapping("/{cardId}/approve")
-    public ResponseEntity<ApiResponse<Void>> approveCard(
-            @PathVariable("cardId") Long cardId
-    ) {
+    public ResponseEntity<ApiResponse<Void>> approveCard(@PathVariable("cardId") Long cardId) {
         cardCommandService.approveCard(cardId);
         return ResponseEntity.ok(ApiResponse.from(CardResultCode.CARD_APPROVE_SUCCESS));
     }
 
     @Override
     @PatchMapping("/{cardId}/reject")
-    public ResponseEntity<ApiResponse<Void>> rejectCard(
-            @PathVariable("cardId") Long cardId
-    ) {
+    public ResponseEntity<ApiResponse<Void>> rejectCard(@PathVariable("cardId") Long cardId) {
         cardCommandService.rejectCard(cardId);
         return ResponseEntity.ok(ApiResponse.from(CardResultCode.CARD_REJECT_SUCCESS));
     }

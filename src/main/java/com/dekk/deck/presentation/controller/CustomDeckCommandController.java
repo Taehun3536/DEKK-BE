@@ -30,9 +30,8 @@ public class CustomDeckCommandController implements CustomDeckCommandApi {
     @Override
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createCustomDeck(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @Valid @RequestBody CustomDeckCreateRequest request
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody CustomDeckCreateRequest request) {
         customDeckCommandService.createCustomDeck(userDetails.getId(), request.toCommand());
 
         return ResponseEntity.ok(ApiResponse.from(DeckResultCode.CUSTOM_DECK_CREATE_SUCCESS));
@@ -41,10 +40,9 @@ public class CustomDeckCommandController implements CustomDeckCommandApi {
     @Override
     @PatchMapping("/{customDeckId}")
     public ResponseEntity<ApiResponse<Void>> updateCustomDeckName(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable("customDeckId") Long customDeckId,
-        @Valid @RequestBody CustomDeckUpdateRequest request
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable("customDeckId") Long customDeckId,
+            @Valid @RequestBody CustomDeckUpdateRequest request) {
         customDeckCommandService.updateCustomDeckName(userDetails.getId(), customDeckId, request.toCommand());
 
         return ResponseEntity.ok(ApiResponse.from(DeckResultCode.CUSTOM_DECK_UPDATE_SUCCESS));
@@ -53,9 +51,7 @@ public class CustomDeckCommandController implements CustomDeckCommandApi {
     @Override
     @DeleteMapping("/{customDeckId}")
     public ResponseEntity<ApiResponse<Void>> deleteCustomDeck(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable("customDeckId") Long customDeckId
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("customDeckId") Long customDeckId) {
         customDeckCommandService.deleteCustomDeck(userDetails.getId(), customDeckId);
 
         return ResponseEntity.ok(ApiResponse.from(DeckResultCode.CUSTOM_DECK_DELETE_SUCCESS));
@@ -64,10 +60,9 @@ public class CustomDeckCommandController implements CustomDeckCommandApi {
     @Override
     @PostMapping("/{customDeckId}/cards/{cardId}")
     public ResponseEntity<ApiResponse<Void>> saveCardToCustomDeck(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable("customDeckId") Long customDeckId,
-        @PathVariable("cardId") Long cardId
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable("customDeckId") Long customDeckId,
+            @PathVariable("cardId") Long cardId) {
         deckCardCommandService.saveToCustomDeck(userDetails.getId(), customDeckId, cardId);
         return ResponseEntity.ok(ApiResponse.from(DeckResultCode.CUSTOM_DECK_CARD_SAVE_SUCCESS));
     }
@@ -75,10 +70,9 @@ public class CustomDeckCommandController implements CustomDeckCommandApi {
     @Override
     @DeleteMapping("/{customDeckId}/cards/{cardId}")
     public ResponseEntity<ApiResponse<Void>> removeCardFromCustomDeck(
-        @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable("customDeckId") Long customDeckId,
-        @PathVariable("cardId") Long cardId
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable("customDeckId") Long customDeckId,
+            @PathVariable("cardId") Long cardId) {
         deckCardCommandService.removeFromCustomDeck(userDetails.getId(), customDeckId, cardId);
         return ResponseEntity.ok(ApiResponse.from(DeckResultCode.CUSTOM_DECK_CARD_DELETE_SUCCESS));
     }

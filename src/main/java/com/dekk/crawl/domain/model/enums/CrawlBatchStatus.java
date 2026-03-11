@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum CrawlBatchStatus {
-
     COLLECTING("수집 중", null, null),
     COLLECTED("수집 완료", COLLECTING, CrawlErrorCode.BATCH_NOT_COLLECTING),
     PROCESSING("정제 처리 중", COLLECTED, CrawlErrorCode.BATCH_NOT_COLLECTED),

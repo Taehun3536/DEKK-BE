@@ -17,15 +17,14 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("DEKK API")
                         .description("API Documentation")
-                        .version("v1.0.0")
-                )
+                        .version("v1.0.0"))
                 .components(new Components()
-                    .addSecuritySchemes("bearerAuth",
-                        new SecurityScheme()
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")))
-                    .addSecurityItem(new SecurityRequirement().addList("bearerAuth")
-                );
+                        .addSecuritySchemes(
+                                "bearerAuth",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
 }

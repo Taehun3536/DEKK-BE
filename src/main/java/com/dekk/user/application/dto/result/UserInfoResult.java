@@ -11,17 +11,18 @@ public record UserInfoResult(
         Integer weight,
         Gender gender,
         String status,
-        String role
-) {
+        String role) {
     public static UserInfoResult from(User user) {
         if (user.getProfile() == null) {
             return new UserInfoResult(
                     user.getId(),
                     user.getEmail(),
-                    null, null, null, null,
+                    null,
+                    null,
+                    null,
+                    null,
                     user.getStatus().name(),
-                    user.getRole().name()
-            );
+                    user.getRole().name());
         }
 
         return new UserInfoResult(
@@ -32,7 +33,6 @@ public record UserInfoResult(
                 user.getProfile().getWeight(),
                 user.getProfile().getGender(),
                 user.getStatus().name(),
-                user.getRole().name()
-        );
+                user.getRole().name());
     }
 }

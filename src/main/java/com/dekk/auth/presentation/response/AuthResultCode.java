@@ -13,7 +13,6 @@ public enum AuthResultCode implements ResultCode {
     private final String code;
     private final String message;
 
-
     @Override
     public HttpStatus status() {
         return status;

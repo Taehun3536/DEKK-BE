@@ -14,15 +14,13 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Table(
         name = "admins",
-        uniqueConstraints = {@UniqueConstraint(name = "uk_admin_email", columnNames = "email")}
-)
+        uniqueConstraints = {@UniqueConstraint(name = "uk_admin_email", columnNames = "email")})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE admins SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")

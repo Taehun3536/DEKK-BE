@@ -4,13 +4,12 @@ import com.dekk.crawl.domain.model.CrawlRawData;
 import com.dekk.crawl.domain.model.enums.RawDataStatus;
 import com.dekk.crawl.domain.repository.CrawlRawDataRepository;
 import com.dekk.crawl.infrastructure.jpa.CrawlRawDataJpaRepository;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

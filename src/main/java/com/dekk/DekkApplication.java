@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class DekkApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DekkApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(DekkApplication.class, args);
+    }
 }

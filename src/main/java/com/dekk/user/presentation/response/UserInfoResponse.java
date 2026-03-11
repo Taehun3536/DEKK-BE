@@ -13,8 +13,7 @@ public record UserInfoResponse(
         Integer weight,
         Gender gender,
         String status,
-        String role
-) {
+        String role) {
     public static UserInfoResponse from(UserInfoResult result) {
         return new UserInfoResponse(
                 result.id(),
@@ -24,7 +23,6 @@ public record UserInfoResponse(
                 result.weight(),
                 result.gender(),
                 result.status(),
-                result.role()
-        );
+                result.role());
     }
 }

@@ -26,7 +26,8 @@ public class CardCommandService {
     }
 
     private Card getCard(Long cardId) {
-        return cardRepository.findById(cardId)
+        return cardRepository
+                .findById(cardId)
                 .orElseThrow(() -> new CardBusinessException(CardErrorCode.CARD_NOT_FOUND));
     }
 }

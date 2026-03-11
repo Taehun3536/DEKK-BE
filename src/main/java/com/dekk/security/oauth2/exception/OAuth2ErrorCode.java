@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 public enum OAuth2ErrorCode implements ErrorCode {
-
     MISSING_USER_INFO(HttpStatus.BAD_REQUEST, "EA40001", "소셜 로그인 제공자로부터 필수 사용자 정보를 받지 못했습니다."),
     UNSUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, "EA40002", "지원하지 않는 소셜 로그인 제공자입니다."),
 

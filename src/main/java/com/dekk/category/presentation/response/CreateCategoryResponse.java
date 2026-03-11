@@ -1,4 +1,3 @@
 package com.dekk.category.presentation.response;
 
-public record CreateCategoryResponse(Long categoryId) {
-}
+public record CreateCategoryResponse(Long categoryId) {}

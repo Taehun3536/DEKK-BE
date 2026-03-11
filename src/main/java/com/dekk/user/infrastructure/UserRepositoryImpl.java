@@ -4,9 +4,9 @@ import com.dekk.user.domain.model.User;
 import com.dekk.user.domain.model.enums.Provider;
 import com.dekk.user.domain.repository.UserRepository;
 import com.dekk.user.infrastructure.jpa.UserJpaRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

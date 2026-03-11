@@ -1,10 +1,9 @@
 package com.dekk.deck.infrastructure.jpa;
 
 import com.dekk.deck.domain.model.Deck;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DeckJpaRepository extends JpaRepository<Deck, Long> {
     Optional<Deck> findByUserIdAndIsDefaultTrue(Long userId);

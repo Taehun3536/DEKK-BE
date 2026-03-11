@@ -16,11 +16,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.regex.Pattern;
 
 @Entity
 @Getter
@@ -95,9 +94,11 @@ public class Profile {
     }
 
     private void validateNickname(String nickname) {
-        if (nickname == null || nickname.isBlank() ||
-                nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH ||
-                !NICKNAME_PATTERN.matcher(nickname).matches()) {
+        if (nickname == null
+                || nickname.isBlank()
+                || nickname.length() < MIN_NICKNAME_LENGTH
+                || nickname.length() > MAX_NICKNAME_LENGTH
+                || !NICKNAME_PATTERN.matcher(nickname).matches()) {
             throw new UserBusinessException(UserErrorCode.INVALID_NICKNAME);
         }
     }
@@ -114,4 +115,3 @@ public class Profile {
         }
     }
 }
-

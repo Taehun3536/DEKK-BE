@@ -15,7 +15,6 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
 
 @Getter
 @Table(name = "product_images")
@@ -39,11 +38,7 @@ public class ProductImage {
     @Column(name = "is_uploaded", nullable = false)
     private boolean isUploaded;
 
-    private ProductImage(
-            String originUrl,
-            String imageUrl,
-            boolean isUploaded
-    ) {
+    private ProductImage(String originUrl, String imageUrl, boolean isUploaded) {
         this.originUrl = originUrl;
         this.imageUrl = imageUrl;
         this.isUploaded = isUploaded;
@@ -53,11 +48,7 @@ public class ProductImage {
         if (command.originUrl() == null) {
             throw new CardBusinessException(CardErrorCode.PRODUCT_ORIGIN_URL_IS_REQUIRED_TO_CREATE);
         }
-        return new ProductImage(
-                command.originUrl(),
-                command.imageUrl(),
-                command.isUploaded()
-        );
+        return new ProductImage(command.originUrl(), command.imageUrl(), command.isUploaded());
     }
 
     protected void setProduct(Product product) {

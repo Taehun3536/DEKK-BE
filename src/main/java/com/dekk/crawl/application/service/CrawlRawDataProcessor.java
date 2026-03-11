@@ -8,10 +8,9 @@ import com.dekk.crawl.domain.exception.CrawlErrorCode;
 import com.dekk.crawl.domain.model.CrawlRawData;
 import com.dekk.crawl.domain.repository.CrawlRawDataRepository;
 import com.dekk.crawl.infrastructure.parser.CrawlDataParserFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,8 @@ public class CrawlRawDataProcessor {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void process(Long rawDataId) {
-        CrawlRawData rawData = rawDataRepository.findById(rawDataId)
+        CrawlRawData rawData = rawDataRepository
+                .findById(rawDataId)
                 .orElseThrow(() -> new CrawlBusinessException(CrawlErrorCode.RAW_DATA_NOT_FOUND));
 
         rawData.markAsProcessing();
@@ -47,22 +47,18 @@ public class CrawlRawDataProcessor {
     }
 
     private List<CardCreateCommand> parseRawData(CrawlRawData rawData) throws JsonProcessingException {
-        return parsers
-                .getParser(rawData.getPlatform())
-                .parse(rawData.getRawData());
+        return parsers.getParser(rawData.getPlatform()).parse(rawData.getRawData());
     }
 
     private void saveNewCards(List<CardCreateCommand> commands) {
         List<Card> cards = commands.stream()
-                        .collect(Collectors.toMap(
-                                cmd -> cmd.platform() + "_" + cmd.originId(),
-                                cmd -> cmd,
-                                (existing, replacement) -> existing
-                        ))
-                        .values().stream()
-                        .filter(cmd -> !cardRepository.existsByPlatformAndOriginId(cmd.platform(), cmd.originId()))
-                        .map(Card::create)
-                        .toList();
+                .collect(Collectors.toMap(
+                        cmd -> cmd.platform() + "_" + cmd.originId(), cmd -> cmd, (existing, replacement) -> existing))
+                .values()
+                .stream()
+                .filter(cmd -> !cardRepository.existsByPlatformAndOriginId(cmd.platform(), cmd.originId()))
+                .map(Card::create)
+                .toList();
         cardRepository.saveAll(cards);
     }
 }

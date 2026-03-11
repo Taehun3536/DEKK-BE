@@ -22,21 +22,21 @@ public interface CardQueryApi {
 
     @Operation(
             summary = "카드 목록 조회",
-            description = "카드 목록을 페이징하여 조회합니다. "
-                    + "인증 토큰이 없으면 카드 기본 정보만, 인증 토큰이 있으면 상품 정보를 포함하여 반환합니다."
-    )
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "카드 목록 조회 성공",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(oneOf = {GuestCardResponse.class, MemberCardResponse.class}),
-                            examples = {
-                                    @ExampleObject(
-                                            name = "비회원 응답 (토큰 없음)",
-                                            summary = "인증 토큰이 없을 때",
-                                            value = """
+            description = "카드 목록을 페이징하여 조회합니다. " + "인증 토큰이 없으면 카드 기본 정보만, 인증 토큰이 있으면 상품 정보를 포함하여 반환합니다.")
+    @ApiResponses(
+            value = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "카드 목록 조회 성공",
+                        content =
+                                @Content(
+                                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                        schema = @Schema(oneOf = {GuestCardResponse.class, MemberCardResponse.class}),
+                                        examples = {
+                                            @ExampleObject(
+                                                    name = "비회원 응답 (토큰 없음)",
+                                                    summary = "인증 토큰이 없을 때",
+                                                    value = """
                                                     {
                                                       "code": "SC200001",
                                                       "message": "비회원 카드 목록 조회 성공",
@@ -56,12 +56,8 @@ public interface CardQueryApi {
                                                         "totalPages": 1,
                                                         "hasNext": false
                                                       }
-                                                    }"""
-                                    ),
-                                    @ExampleObject(
-                                            name = "회원 응답 (토큰 있음)",
-                                            summary = "인증 토큰이 있을 때",
-                                            value = """
+                                                    }"""),
+                                            @ExampleObject(name = "회원 응답 (토큰 있음)", summary = "인증 토큰이 있을 때", value = """
                                                     {
                                                       "code": "SC200002",
                                                       "message": "회원 카드 목록 조회 성공",
@@ -90,15 +86,11 @@ public interface CardQueryApi {
                                                         "totalPages": 1,
                                                         "hasNext": false
                                                       }
-                                                    }"""
-                                    )
-                            }
-                    )
-            )
-    })
+                                                    }""")
+                                        }))
+            })
     ResponseEntity<ApiResponse<PageResponse<?>>> getCards(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "페이지 번호 (0부터 시작)", example = "0") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "페이지 크기", example = "10") @RequestParam(defaultValue = "10") int size
-    );
+            @Parameter(description = "페이지 크기", example = "10") @RequestParam(defaultValue = "10") int size);
 }

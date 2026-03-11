@@ -25,10 +25,15 @@ app:
   oauth2:
     redirect-uri: "http://localhost:3000/oauth2/redirect"
     login-page: "http://localhost:3000/login"
+    join-page: "http://localhost:3000/join"
   cors:
     allowed-origins: "http://localhost:3000"
+  cookie:
+    domain: .test.co.kr
+    secure: true
 
 jwt:
   secret: "dGhpcy1pcy1hLWR1bW15LXNlY3JldC1rZXktZm9yLXRlc3RpbmctcHVycG9zZXMtb25seS0xMjM="
   access-token-validity-in-seconds: 3600
   refresh-token-validity-in-seconds: 604800
+

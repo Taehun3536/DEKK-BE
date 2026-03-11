@@ -3,10 +3,9 @@ package com.dekk.admin.infrastructure;
 import com.dekk.admin.domain.model.Admin;
 import com.dekk.admin.domain.repository.AdminRepository;
 import com.dekk.admin.infrastructure.jpa.AdminJpaRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

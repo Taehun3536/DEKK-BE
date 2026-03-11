@@ -1,20 +1,19 @@
 package com.dekk.deck.infrastructure;
 
+import static java.util.Collections.emptyMap;
+
 import com.dekk.deck.domain.model.DeckCard;
 import com.dekk.deck.domain.repository.DeckCardRepository;
 import com.dekk.deck.infrastructure.jpa.DeckCardCountProjection;
 import com.dekk.deck.infrastructure.jpa.DeckCardJpaRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Collections.emptyMap;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -59,10 +58,7 @@ public class DeckCardRepositoryImpl implements DeckCardRepository {
         }
 
         return deckCardJpaRepository.countCardsByDeckIds(deckIds).stream()
-            .collect(Collectors.toMap(
-                DeckCardCountProjection::getDeckId,
-                DeckCardCountProjection::getCardCount
-            ));
+                .collect(Collectors.toMap(DeckCardCountProjection::getDeckId, DeckCardCountProjection::getCardCount));
     }
 
     @Override
@@ -84,5 +80,10 @@ public class DeckCardRepositoryImpl implements DeckCardRepository {
             return List.of();
         }
         return deckCardJpaRepository.findTopCardsByDeckIdsIn(deckIds, limit);
+    }
+
+    @Override
+    public List<DeckCard> findAllByDeckIdOrderByCreatedAtDesc(Long deckId) {
+        return deckCardJpaRepository.findAllByDeckIdOrderByCreatedAtDesc(deckId);
     }
 }

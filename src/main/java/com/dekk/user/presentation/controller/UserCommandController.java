@@ -27,9 +27,7 @@ public class UserCommandController implements UserCommandApi {
     @Override
     @PostMapping("/onboarding")
     public ResponseEntity<ApiResponse<Void>> onboardUser(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody UserOnboardingRequest request
-    ) {
+            @AuthenticationPrincipal CustomUserDetails userDetails, @Valid @RequestBody UserOnboardingRequest request) {
         userCommandService.onboardUser(userDetails.getId(), request.toCommand());
 
         return ResponseEntity.ok(ApiResponse.from(UserResultCode.ONBOARDING_SUCCESS));
@@ -39,8 +37,7 @@ public class UserCommandController implements UserCommandApi {
     @PatchMapping("/me")
     public ResponseEntity<ApiResponse<Void>> updateProfile(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody UserProfileUpdateRequest request
-    ) {
+            @Valid @RequestBody UserProfileUpdateRequest request) {
         userCommandService.updateProfileInfo(userDetails.getId(), request.toCommand());
 
         return ResponseEntity.ok(ApiResponse.from(UserResultCode.PROFILE_UPDATE_SUCCESS));
@@ -48,9 +45,7 @@ public class UserCommandController implements UserCommandApi {
 
     @Override
     @DeleteMapping("/me")
-    public ResponseEntity<ApiResponse<Void>> deleteUser(
-            @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
         userCommandService.deleteUser(userDetails.getId());
 
         return ResponseEntity.ok(ApiResponse.from(UserResultCode.USER_DELETE_SUCCESS));

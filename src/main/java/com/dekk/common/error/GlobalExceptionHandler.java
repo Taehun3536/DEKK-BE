@@ -26,9 +26,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleCrawlBusinessException(CrawlBusinessException e) {
         ErrorCode errorCode = e.errorCode();
         crawlLog.warn("Crawl Exception : [Code: {}] {}", errorCode.code(), errorCode.message(), e);
-        return ResponseEntity
-                .status(errorCode.status())
-                .body(ErrorResponse.from(errorCode));
+        return ResponseEntity.status(errorCode.status()).body(ErrorResponse.from(errorCode));
     }
 
     /**
@@ -38,9 +36,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
         ErrorCode errorCode = e.errorCode();
         log.warn("Business Exception : [Code: {}] {}", errorCode.code(), errorCode.message());
-        return ResponseEntity
-            .status(e.errorCode().status())
-            .body(ErrorResponse.from(errorCode));
+        return ResponseEntity.status(e.errorCode().status()).body(ErrorResponse.from(errorCode));
     }
 
     /**
@@ -49,8 +45,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
         List<String> errors = e.getBindingResult().getFieldErrors().stream()
-            .map(fieldError -> fieldError.getField() + " : " + fieldError.getDefaultMessage())
-            .toList();
+                .map(fieldError -> fieldError.getField() + " : " + fieldError.getDefaultMessage())
+                .toList();
 
         log.info("Validation Exception : {}", errors);
 
@@ -63,7 +59,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException e) {
         List<String> errors = e.getConstraintViolations().stream()
-            .map(v -> v.getPropertyPath() + " : " + v.getMessage())
+                .map(v -> v.getPropertyPath() + " : " + v.getMessage())
                 .toList();
 
         log.info("Constraint Violation : {}", errors);
@@ -103,8 +99,6 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(ErrorCode errorCode, List<String> errors) {
-        return ResponseEntity
-            .status(errorCode.status())
-            .body(ErrorResponse.of(errorCode, errors));
+        return ResponseEntity.status(errorCode.status()).body(ErrorResponse.of(errorCode, errors));
     }
 }

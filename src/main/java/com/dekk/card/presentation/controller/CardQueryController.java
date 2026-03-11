@@ -1,9 +1,9 @@
 package com.dekk.card.presentation.controller;
 
 import com.dekk.card.application.CardQueryService;
-import com.dekk.card.presentation.response.CardResultCode;
 import com.dekk.card.presentation.dto.response.GuestCardResponse;
 import com.dekk.card.presentation.dto.response.MemberCardResponse;
+import com.dekk.card.presentation.response.CardResultCode;
 import com.dekk.common.response.ApiResponse;
 import com.dekk.common.response.PageResponse;
 import com.dekk.security.oauth2.CustomUserDetails;
@@ -29,8 +29,7 @@ public class CardQueryController implements CardQueryApi {
     public ResponseEntity<ApiResponse<PageResponse<?>>> getCards(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+            @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
 
         if (userDetails != null) {
@@ -40,16 +39,10 @@ public class CardQueryController implements CardQueryApi {
     }
 
     private PageResponse<MemberCardResponse> getMemberCards(Pageable pageable) {
-        return PageResponse.from(
-                cardQueryService.getCardsForMember(pageable)
-                        .map(MemberCardResponse::from)
-        );
+        return PageResponse.from(cardQueryService.getCardsForMember(pageable).map(MemberCardResponse::from));
     }
 
     private PageResponse<GuestCardResponse> getGuestCards(Pageable pageable) {
-        return PageResponse.from(
-                cardQueryService.getCardsForGuest(pageable)
-                        .map(GuestCardResponse::from)
-        );
+        return PageResponse.from(cardQueryService.getCardsForGuest(pageable).map(GuestCardResponse::from));
     }
 }

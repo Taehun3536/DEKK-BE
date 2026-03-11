@@ -3,10 +3,9 @@ package com.dekk.crawl.infrastructure;
 import com.dekk.crawl.domain.model.CrawlBatch;
 import com.dekk.crawl.domain.repository.CrawlBatchRepository;
 import com.dekk.crawl.infrastructure.jpa.CrawlBatchJpaRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
