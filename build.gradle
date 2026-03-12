@@ -63,6 +63,17 @@ dependencies {
     implementation 'me.paulschwarz:spring-dotenv:4.0.0'
     testImplementation 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // ui 자동화 테스트 도구
+    testImplementation 'com.microsoft.playwright:playwright:1.58.0'
+
+    // api 테스트 도구
+    testImplementation 'io.rest-assured:rest-assured:5.5.0'
+    // 핵심 라이브러리
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'io.rest-assured:json-path'
+    testImplementation 'io.rest-assured:xml-path'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {
